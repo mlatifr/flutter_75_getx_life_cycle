@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,14 +15,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  var count = 0;
-
+class HomePage extends StatelessWidget {
+  final countC = Get.put(CounterController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,56 +32,21 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Center(
-        child: CountWidget(count: count),
+        child: CountWidget(),
       ),
       floatingActionButton: FloatingActionButton(onPressed: () {
-        setState(() {
-          count++;
-        });
+        countC.add();
       }),
     );
   }
 }
 
-class CountWidget extends StatefulWidget {
-  final int count;
-  CountWidget({
-    Key key,
-    this.count,
-  }) : super(key: key);
-
-  @override
-  _CountWidgetState createState() => _CountWidgetState();
-}
-
-class _CountWidgetState extends State<CountWidget> {
-  @override
-  void initState() {
-    print('ini initState');
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    print('ini didChangeDependencies');
-    super.didChangeDependencies();
-  }
-
-  @override
-  void didUpdateWidget(covariant CountWidget oldWidget) {
-    print('ini didUpdateWidget $oldWidget di update');
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    print('ini dispose');
-    super.dispose();
-  }
-
+class CountWidget extends StatelessWidget {
+  final countC = Get.find<CounterController>();
   @override
   Widget build(BuildContext context) {
-    return Text('Angka ${widget.count}');
+    return GetBuilder<CounterController>(
+        builder: (c) => Text('Angka ${c.count}'));
   }
 }
 
@@ -107,5 +67,13 @@ class OtherPage extends StatelessWidget {
       ),
       body: Container(),
     );
+  }
+}
+
+class CounterController extends GetxController {
+  var count = 0;
+  void add() {
+    count++;
+    update();
   }
 }
