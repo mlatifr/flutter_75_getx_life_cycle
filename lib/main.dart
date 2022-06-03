@@ -9,7 +9,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       home: HomePage(),
       debugShowCheckedModeBanner: false,
     );
@@ -17,73 +17,53 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  //step 2
-  final countC = Get.put(CounterController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('HOME PAGE'),
         actions: [
           IconButton(
               icon: Icon(Icons.pages),
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => OtherPage(),
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TextPage(),
                 ));
               })
         ],
       ),
       body: Center(
-        child: CountWidget(),
+        child: Text('HOME PAGE'),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        countC.add();
-      }),
     );
   }
 }
 
-class CountWidget extends StatelessWidget {
-  //step 4
-  final countC = Get.find<CounterController>();
-  @override
-  Widget build(BuildContext context) {
-    //step 5
-    return GetBuilder<CounterController>(
-        initState: (_) => print('this : initState'),
-        didChangeDependencies: (_) => print('this : didChangeDependencies'),
-        didUpdateWidget: (oldWidget, _) =>
-            print('this : didUpdateWidget oldWidget $oldWidget '),
-        dispose: (_) => print('this : dispose'),
-        builder: (c) => Text('Angka ${c.count}'));
-  }
-}
-
-class OtherPage extends StatelessWidget {
-  const OtherPage({Key key}) : super(key: key);
-
+class TextPage extends StatelessWidget {
+  final textC = TextController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(' Text Page'),
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => HomePage(),
-              ));
+              Navigator.pop(context);
+              // Navigator.of(context).pushReplacement(MaterialPageRoute(
+              //   builder: (context) => HomePage(),
+              // ));
             }),
       ),
-      body: Container(),
+      body: Container(
+        child: TextField(
+          controller: textC.myC,
+        ),
+      ),
     );
   }
 }
 
-class CounterController extends GetxController {
-  //step 3
-  var count = 0;
-  void add() {
-    count++;
-    update();
-  }
+class TextController extends GetxController {
+  final myC = TextEditingController();
 }
