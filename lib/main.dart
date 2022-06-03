@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//step 1
 import 'package:get/get.dart';
 
 void main() {
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  //step 2
   final countC = Get.put(CounterController());
   @override
   Widget build(BuildContext context) {
@@ -42,9 +44,11 @@ class HomePage extends StatelessWidget {
 }
 
 class CountWidget extends StatelessWidget {
+  //step 4
   final countC = Get.find<CounterController>();
   @override
   Widget build(BuildContext context) {
+    //step 5
     return GetBuilder<CounterController>(
         builder: (c) => Text('Angka ${c.count}'));
   }
@@ -71,6 +75,7 @@ class OtherPage extends StatelessWidget {
 }
 
 class CounterController extends GetxController {
+  //step 3
   var count = 0;
   void add() {
     count++;
